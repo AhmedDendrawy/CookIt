@@ -1,4 +1,4 @@
-package com.ahmed.cookit.ui.Screens
+package com.ahmed.cookit.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,8 +25,6 @@ import com.ahmed.cookit.model.Category
 import com.ahmed.cookit.model.CategoryResponse
 import com.ahmed.cookit.model.MealModel
 import com.ahmed.cookit.model.MealResponse
-import com.ahmed.cookit.ui.CategoriesRow
-import com.ahmed.cookit.ui.MealsGrid
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,11 +32,12 @@ import retrofit2.Response
 @Composable
 fun CookItScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    var categoriesList by remember { mutableStateOf(emptyList<Category>()) }
-    var mealsList by remember { mutableStateOf(emptyList<MealModel>()) }
-    var selectedCategoryName by remember { mutableStateOf<String?>(null) }
-    var isDataLoaded by remember { mutableStateOf(false) }
-    var isMealsLoading by remember { mutableStateOf(false) }
+
+    var categoriesList by rememberSaveable { mutableStateOf(emptyList<Category>()) }
+    var mealsList by rememberSaveable { mutableStateOf(emptyList<MealModel>()) }
+    var selectedCategoryName by rememberSaveable { mutableStateOf<String?>(null) }
+    var isDataLoaded by rememberSaveable { mutableStateOf(false) }
+    var isMealsLoading by rememberSaveable { mutableStateOf(false) }
 
     if (!isDataLoaded) {
         RetrofitClient.api.getCategories().enqueue(object : Callback<CategoryResponse> {
@@ -67,24 +66,18 @@ fun CookItScreen(modifier: Modifier = Modifier) {
                 mealsList = emptyList()
                 isMealsLoading = true
 
-                RetrofitClient.api.getMealsByCategory(categoryName)
-                    .enqueue(object : Callback<MealResponse> {
-                        override fun onResponse(
-                            call: Call<MealResponse>,
-                            response: Response<MealResponse>
-                        ) {
-                            isMealsLoading = false
-                            if (response.isSuccessful) {
-                                mealsList = response.body()?.meals ?: emptyList()
-                            }
+                RetrofitClient.api.getMealsByCategory(categoryName).enqueue(object : Callback<MealResponse> {
+                    override fun onResponse(call: Call<MealResponse>, response: Response<MealResponse>) {
+                        isMealsLoading = false
+                        if (response.isSuccessful) {
+                            mealsList = response.body()?.meals ?: emptyList()
                         }
-
-                        override fun onFailure(call: Call<MealResponse>, t: Throwable) {
-                            isMealsLoading = false
-                            Toast.makeText(context, "Failed: ${t.message}", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    })
+                    }
+                    override fun onFailure(call: Call<MealResponse>, t: Throwable) {
+                        isMealsLoading = false
+                        Toast.makeText(context, "Failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
             }
         )
 
