@@ -1,4 +1,4 @@
-package com.ahmed.cookit.ui
+package com.ahmed.cookit.ui.Screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +25,8 @@ import com.ahmed.cookit.model.Category
 import com.ahmed.cookit.model.CategoryResponse
 import com.ahmed.cookit.model.MealModel
 import com.ahmed.cookit.model.MealResponse
+import com.ahmed.cookit.ui.CategoriesRow
+import com.ahmed.cookit.ui.MealsGrid
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,6 +38,7 @@ fun CookItScreen(modifier: Modifier = Modifier) {
     var mealsList by remember { mutableStateOf(emptyList<MealModel>()) }
     var selectedCategoryName by remember { mutableStateOf<String?>(null) }
     var isDataLoaded by remember { mutableStateOf(false) }
+    var isMealsLoading by remember { mutableStateOf(false) }
 
     if (!isDataLoaded) {
         RetrofitClient.api.getCategories().enqueue(object : Callback<CategoryResponse> {
@@ -61,17 +65,26 @@ fun CookItScreen(modifier: Modifier = Modifier) {
             onCategoryClick = { categoryName ->
                 selectedCategoryName = categoryName
                 mealsList = emptyList()
+                isMealsLoading = true
 
-                RetrofitClient.api.getMealsByCategory(categoryName).enqueue(object : Callback<MealResponse> {
-                    override fun onResponse(call: Call<MealResponse>, response: Response<MealResponse>) {
-                        if (response.isSuccessful) {
-                            mealsList = response.body()?.meals ?: emptyList()
+                RetrofitClient.api.getMealsByCategory(categoryName)
+                    .enqueue(object : Callback<MealResponse> {
+                        override fun onResponse(
+                            call: Call<MealResponse>,
+                            response: Response<MealResponse>
+                        ) {
+                            isMealsLoading = false
+                            if (response.isSuccessful) {
+                                mealsList = response.body()?.meals ?: emptyList()
+                            }
                         }
-                    }
-                    override fun onFailure(call: Call<MealResponse>, t: Throwable) {
-                        Toast.makeText(context, "Failed: ${t.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
+
+                        override fun onFailure(call: Call<MealResponse>, t: Throwable) {
+                            isMealsLoading = false
+                            Toast.makeText(context, "Failed: ${t.message}", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    })
             }
         )
 
@@ -80,6 +93,10 @@ fun CookItScreen(modifier: Modifier = Modifier) {
         if (selectedCategoryName == null) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(text = "Select a category to show available meals", color = Color.Gray)
+            }
+        } else if (isMealsLoading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
         } else {
             MealsGrid(mealsList = mealsList)
