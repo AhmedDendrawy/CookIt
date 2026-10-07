@@ -1,15 +1,17 @@
 # CookIt 🍳
 
-A simple and modern Android application that allows users to explore meal categories and browse delicious meals. Built entirely with Jetpack Compose.
+A simple and modern Android application that allows users to explore meal categories and browse delicious meals. Built entirely with Jetpack Compose following modern Android development standards.
 
-## 🚀 Technologies & Tools Used
+## 🚀 Technologies, Architecture & Tools
 
 *   **Kotlin**: The primary programming language.
-*   **Jetpack Compose**: Android's modern toolkit for building native UI.
+*   **Jetpack Compose**: Android's modern toolkit for building native UI. The app heavily relies on *State Hoisting* and *Stateless Composables* for better reusability and clean UI logic.
+*   **MVVM Architecture**: Ensures a clean separation of concerns. The UI acts only as a dumb observer of the state, while the ViewModel handles all business logic.
+*   **Coroutines & StateFlow**: Modern reactive programming approaches used for handling asynchronous background operations (API calls) and seamlessly updating the UI via Unidirectional Data Flow (UDF).
+*   **UiState (Sealed Interfaces)**: Implemented a robust state management wrapper (Idle, Loading, Success, Error) to safely handle and represent network request lifecycles.
 *   **Retrofit2**: Type-safe REST client used to fetch meal data from [TheMealDB API](https://www.themealdb.com/).
 *   **Gson Converter**: Used with Retrofit to parse JSON responses into Kotlin models.
 *   **Coil (coil-compose)**: An image loading library used to load category and meal thumbnails asynchronously.
-*   **State Management & Configuration**: Direct state management using Compose `rememberSaveable` and `mutableStateOf` to seamlessly preserve UI state and fetched data during screen rotations (Landscape/Portrait).
 *   **Postman**: Used for testing and exploring the API endpoints and responses prior to implementation.
 
 ## 📸 Screenshots
