@@ -3,7 +3,7 @@ package com.ahmed.cookit.ui.screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahmed.cookit.api.RetrofitClient
-import com.ahmed.cookit.model.Category
+import com.ahmed.cookit.model.CategoryDto
 import com.ahmed.cookit.model.MealModel
 import com.ahmed.cookit.model.State
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CookItViewModel : ViewModel() {
-    private val _categoriesState = MutableStateFlow<State<List<Category>>>(State.Loading)
+    private val _categoriesState = MutableStateFlow<State<List<CategoryDto>>>(State.Loading)
     val categoriesState = _categoriesState.asStateFlow()
 
     private val _mealState = MutableStateFlow<State<List<MealModel>>>(State.Idle)

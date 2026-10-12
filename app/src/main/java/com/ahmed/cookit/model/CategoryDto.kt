@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class CategoryResponse(
     @SerializedName("categories")
-    val categories: List<Category>
+    val categories: List<CategoryDto>
 )
 
-data class Category (
+data class CategoryDto (
     @SerializedName("idCategory")
     val id: String,
 

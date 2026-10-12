@@ -18,13 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.ahmed.cookit.model.Category
+import com.ahmed.cookit.model.CategoryDto
 import com.ahmed.cookit.ui.theme.gradientBrush
 
 @Composable
 fun CategoryItem(
     modifier: Modifier = Modifier,
-    category: Category,
+    category: CategoryDto,
     isSelected: Boolean,
     onItemClick: () -> Unit
 ) {
