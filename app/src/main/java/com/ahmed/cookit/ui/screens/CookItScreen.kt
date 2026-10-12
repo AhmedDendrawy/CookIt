@@ -52,9 +52,11 @@ fun CookItScreen(modifier: Modifier = Modifier, viewModel: CookItViewModel = vie
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Box(modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+        ) {
             when (mealsState) {
                 is State.Error -> {
                     Text("Error loading meals")

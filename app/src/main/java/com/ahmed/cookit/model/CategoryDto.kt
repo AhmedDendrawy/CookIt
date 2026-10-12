@@ -2,12 +2,12 @@ package com.ahmed.cookit.model
 
 import com.google.gson.annotations.SerializedName
 
-class CategoryResponse(
+data class CategoryResponse(
     @SerializedName("categories")
-    val categories: List<Category>
+    val categories: List<CategoryDto>
 )
 
-class Category (
+data class CategoryDto (
     @SerializedName("idCategory")
     val id: String,
 

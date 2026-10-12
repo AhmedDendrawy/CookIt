@@ -14,12 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.ahmed.cookit.model.Category
+import com.ahmed.cookit.database.CategoryEntity
 import com.ahmed.cookit.model.MealModel
 
 @Composable
 fun CategoriesRow(
-    categoriesList: List<Category>,
+    categoriesList: List<CategoryEntity>,
     selectedCategoryName: String?,
     onCategoryClick: (String) -> Unit
 ) {

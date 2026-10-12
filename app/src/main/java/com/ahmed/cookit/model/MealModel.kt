@@ -2,12 +2,12 @@ package com.ahmed.cookit.model
 
 import com.google.gson.annotations.SerializedName
 
-class MealResponse(
+data class MealResponse(
     @SerializedName("meals")
     val meals: List<MealModel>
 )
 
-class MealModel(
+data class MealModel(
     @SerializedName("idMeal")
     val id: String,
 
