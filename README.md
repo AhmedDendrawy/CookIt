@@ -6,11 +6,11 @@ A simple and modern Android application that allows users to explore meal catego
 
 *   **Kotlin**: The primary programming language.
 *   **Jetpack Compose**: Android's modern toolkit for building native UI. The app heavily relies on *State Hoisting* and *Stateless Composables* for better reusability and clean UI logic.
-*   **MVVM Architecture**: Ensures a clean separation of concerns. The UI acts only as a dumb observer of the state, while the ViewModel handles all business logic.
-*   **Coroutines & StateFlow**: Modern reactive programming approaches used for handling asynchronous background operations (API calls) and seamlessly updating the UI via Unidirectional Data Flow (UDF).
-*   **UiState (Sealed Interfaces)**: Implemented a robust state management wrapper (Idle, Loading, Success, Error) to safely handle and represent network request lifecycles.
-*   **Retrofit2**: Type-safe REST client used to fetch meal data from [TheMealDB API](https://www.themealdb.com/).
-*   **Gson Converter**: Used with Retrofit to parse JSON responses into Kotlin models.
+*   **MVVM & Clean Architecture Principles**: Ensures a clean separation of concerns. The UI acts only as a dumb observer of the state. The data layer is decoupled using the **Repository Pattern**, which serves as a Single Source of Truth (SSOT). Network models (DTOs) and local database models (Entities) are strictly separated using Data Mappers.
+*   **Room Database (Offline Caching)**: Implemented a robust local caching mechanism. The app automatically caches API responses, allowing users to seamlessly browse meal categories without an active internet connection.
+*   **Coroutines, Flow & StateFlow**: Modern reactive programming approaches used for handling background operations. `Flow` is utilized to observe real-time database changes, seamlessly updating the UI via Unidirectional Data Flow (UDF).
+*   **UiState (Sealed Interfaces)**: Implemented a robust state management wrapper (Idle, Loading, Success, Error) to safely handle and represent network and database request lifecycles.
+*   **Retrofit2 & Gson**: Type-safe REST client and JSON converter used to fetch and parse meal data from [TheMealDB API](https://www.themealdb.com/).
 *   **Coil (coil-compose)**: An image loading library used to load category and meal thumbnails asynchronously.
 *   **Postman**: Used for testing and exploring the API endpoints and responses prior to implementation.
 
@@ -28,5 +28,5 @@ A simple and modern Android application that allows users to explore meal catego
   <img src="https://github.com/user-attachments/assets/1a1d71a2-0440-4924-8057-7f194ea11229" width="40%" alt="Landscape Screen" />
 </p>
 
-## API Reference
+## 🌐 API Reference
 Data is provided by the free API from [TheMealDB](https://www.themealdb.com/api.php).
